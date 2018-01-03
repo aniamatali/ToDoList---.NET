@@ -1,14 +1,31 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 
-namespace ToDoList.Models
+namespace ToDoListWithMigrations.Models
 {
-    public class ToDoListContext : DbContext
-    {
-        public DbSet<ToDoListContext> DbContext { get; set; }
+	public class ToDoDbContext : DbContext
+	{
+		public ToDoDbContext()
+		{
+		}
 
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-			=> optionsBuilder
-				.UseMySql(@"Server=localhost;Port=8889;database=todolist;uid=root;pwd=root;");
-    }
+		public DbSet<Category> Categories { get; set; }
+
+		public DbSet<Item> Items { get; set; }
+
+		protected override void OnConfiguring(DbContextOptionsBuilder options)
+		{
+			options.UseMySql(@"Server=localhost;Port=8889;database=ToDoListWithMigrations;uid=root;pwd=root;");
+		}
+
+		public ToDoDbContext(DbContextOptions<ToDoDbContext> options)
+			: base(options)
+		{
+		}
+
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			base.OnModelCreating(builder);
+		}
+	}
 }

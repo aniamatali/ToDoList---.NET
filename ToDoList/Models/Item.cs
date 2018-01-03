@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
-namespace ToDoList.Models
+namespace ToDoListWithMigrations.Models
 {
 	[Table("Items")]
 	public class Item
@@ -9,5 +9,7 @@ namespace ToDoList.Models
 		[Key]
 		public int ItemId { get; set; }
 		public string Description { get; set; }
+		public int CategoryId { get; set; }
+		public virtual Category Category { get; set; }
 	}
 }

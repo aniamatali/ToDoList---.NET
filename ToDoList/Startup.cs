@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ToDoList.Models;
+using ToDoListWithMigrations.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
-namespace ToDoList
+namespace ToDoListWithMigrations
 {
     public class Startup
     {
@@ -32,28 +32,15 @@ namespace ToDoList
         {
 			services.AddMvc();
 			services.AddEntityFrameworkMySql()
-					.AddDbContext<ToDoListContext>(options =>
+					.AddDbContext<ToDoDbContext>(options =>
 											  options
 												   .UseMySql(Configuration["ConnectionStrings:DefaultConnection"]));
 		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
-			app.UseStaticFiles();
-			app.UseMvc(routes =>
-			{
-				routes.MapRoute(
-				  name: "default",
-				  template: "{controller=Home}/{action=Index}/{id?}");
-			});
 
-            loggerFactory.AddConsole();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
 
             app.Run(async (context) =>
             {
